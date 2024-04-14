@@ -2,7 +2,6 @@ package panels;
 
 import java.awt.Dimension;
 import java.awt.Graphics;
-import java.awt.Image;
 import java.awt.event.ComponentAdapter;
 import java.awt.event.ComponentEvent;
 import java.awt.event.MouseAdapter;
@@ -20,7 +19,8 @@ public class FieldPanel extends JPanel {
 	 * 
 	 */
 	private static final long serialVersionUID = 2237591384451333797L;
-
+	private final int FIELD_X_SIZE = 600;
+	private final int FIELD_Y_SIZE = 600;
 	Field field;
 	int[] mousePosition = new int[2];
 	FieldMouseListener mouseListener;
@@ -28,15 +28,13 @@ public class FieldPanel extends JPanel {
 	private boolean isCallBackSet;
 
 	public FieldPanel(Field field) {
-		System.out.println("Constructor");
+
 		this.field = field;
 		mouseListener = new FieldMouseListener();
-		setPreferredSize(new Dimension(600, 600));
-		field.setDimension(getPreferredSize());
-		System.out.println(getPreferredSize().toString());
-		setDoubleBuffered(true);
+		setPreferredSize(new Dimension(FIELD_X_SIZE, FIELD_Y_SIZE));
+		field.setImage(getPreferredSize());
 
-		
+		setDoubleBuffered(true);
 
 		this.addComponentListener(new ComponentAdapter() {
 
@@ -62,9 +60,8 @@ public class FieldPanel extends JPanel {
 	public void paint(Graphics g) {
 
 		super.paint(g);
-		Image image = createImage(getWidth()*5 , getHeight()*5 );
 
-		field.drawMesh(g, getWidth(), getHeight(), image, new DrawOnCall() {
+		field.drawMesh(g, getWidth(), getHeight()/* , image */, new DrawOnCall() {
 
 			@Override
 			public void draw() {
@@ -85,7 +82,7 @@ public class FieldPanel extends JPanel {
 		@Override
 		public void mouseReleased(MouseEvent e) {
 			isShiftStared = false;
-			System.out.println(isShiftStared);
+
 			e.consume();
 		}
 
@@ -105,7 +102,7 @@ public class FieldPanel extends JPanel {
 				dragXstart = e.getX();
 				dragYstart = e.getY();
 				field.shift(e.getX(), e.getY(), dragXstart, dragYstart);
-				System.out.println("bug");
+
 				isShiftStared = true;
 			} else {
 				field.shift(e.getX(), e.getY());

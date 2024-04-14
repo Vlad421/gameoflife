@@ -58,7 +58,7 @@ public class ControlPanel extends JPanel {
 					throws BadLocationException {
 				Matcher matcher = regex.matcher(text);
 				if (!matcher.matches() || !(fb.getDocument().getLength() + text.length() <= maxLength)) {
-				//	Toolkit.getDefaultToolkit().beep();
+					Toolkit.getDefaultToolkit().beep();
 					return;
 				}
 
@@ -79,6 +79,7 @@ public class ControlPanel extends JPanel {
 					int w = Integer.parseInt(width.getText());
 					int h = Integer.parseInt(heigth.getText());
 					field.stopSim();
+					
 					field.resizeField(w, h);
 				} else
 					field.resetSim();

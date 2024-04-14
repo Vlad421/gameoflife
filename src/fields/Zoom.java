@@ -1,5 +1,7 @@
 package fields;
 
+import interfaces.Single;
+
 public class Zoom {
 	private final int xStart;
 	private final int yStart;
@@ -26,6 +28,7 @@ public class Zoom {
 		this.yZoomEnd = yEnd;
 		initZoomSize();
 		setCenter();
+		resetZoom();
 	}
 
 	public void resetZoom() {
@@ -51,7 +54,7 @@ public class Zoom {
 	private void shift(int xPoint, int yPoint) {
 		int xDiff = xPoint - xZoomCenter;
 		int yDiff = yPoint - yZoomCenter;
-		System.out.println(xDiff + " ---- " + yDiff);
+
 		synchronized (this) {
 			xShift(xDiff);
 			yShift(yDiff);
@@ -64,7 +67,6 @@ public class Zoom {
 		int xDiff = -xPoint;
 		int yDiff = -yPoint;
 
-		System.out.println(xDiff + " ---- " + yDiff);
 		synchronized (this) {
 			xShift(xDiff);
 			yShift(yDiff);
@@ -116,6 +118,7 @@ public class Zoom {
 			xZoomSize -= zoomAmount;
 			yZoomSize -= zoomAmount;
 			shift(xShift, yShift);
+			printZoom();
 			return true;
 		}
 		return false;
@@ -127,16 +130,19 @@ public class Zoom {
 			xZoomSize += zoomAmount;
 			yZoomSize += zoomAmount;
 			shift(xShift, yShift);
+			printZoom();
 			return true;
 		}
 		return false;
 	}
 
-	@SuppressWarnings("unused")
 	private void printZoom() {
-		System.out.println(System.currentTimeMillis());
-		System.out.printf("# Zooming visibles #\nxVisible: %d ---- %d\nyVisible: %d ---- %d\nxSize - %d, ySize - %d\n",
-				xZoomStart, xZoomEnd, yZoomStart, yZoomEnd, xZoomSize, yZoomSize);
+		if (Single.isDebug) {
+			System.out.printf(
+					"# Zooming visibles #\nxVisible: %d ---- %d\nyVisible: %d ---- %d\nxSize - %d, ySize - %d\n",
+					xZoomStart, xZoomEnd, yZoomStart, yZoomEnd, xZoomSize, yZoomSize);
+		}
+
 	}
 
 	public int getLeft() {
@@ -169,6 +175,14 @@ public class Zoom {
 
 	public int getyEnd() {
 		return yEnd;
+	}
+
+	public int getxZoomSize() {
+		return xZoomSize;
+	}
+
+	public int getyZoomSize() {
+		return yZoomSize;
 	}
 
 }

@@ -22,12 +22,12 @@ public class GameOfLifeField extends Field {
 		buildField(width, heigth);
 
 		seedField();
-		setName("Field Thread");
+		setName("GOL Field Thread");
 
 	}
 
 	public void seedField() {
-		System.out.println("seedField()");
+
 		Random rand = new Random();
 		for (short i = 0; i < field.length; i++) {
 			for (short j = 0; j < field[i].length; j++) {
@@ -36,14 +36,20 @@ public class GameOfLifeField extends Field {
 		}
 	}
 
-	void buildField() {
+	@Override
+	protected void buildField() {
 
 		field = new GameOfLifeCell[DEF_WIDTH][DEF_HEIGTH];
+		fieldXSize = DEF_WIDTH;
+		fieldYSize = DEF_HEIGTH;
 
 	}
 
-	void buildField(int width, int heigth) {
+	@Override
+	protected void buildField(int width, int heigth) {
 		field = new GameOfLifeCell[width][heigth];
+		fieldXSize = width;
+		fieldYSize = heigth;
 
 	}
 
@@ -64,38 +70,24 @@ public class GameOfLifeField extends Field {
 		requestMeshRebuild();
 	}
 
-	private Color[] colors = { Color.BLACK, Color.DARK_GRAY, Color.BLACK, Color.GREEN, Color.BLACK, Color.BLUE,
-			Color.BLACK, Color.CYAN, Color.BLACK, Color.BLACK, Color.magenta, Color.BLACK, Color.LIGHT_GRAY,
-			Color.BLACK, Color.DARK_GRAY, Color.BLACK, Color.LIGHT_GRAY, Color.RED, Color.BLACK, Color.GRAY,
-			Color.BLACK, Color.BLACK, Color.GREEN, Color.BLUE, Color.DARK_GRAY, Color.orange, Color.BLACK,
-			Color.DARK_GRAY, Color.BLACK, Color.RED, Color.BLACK, Color.BLACK, Color.BLACK, Color.DARK_GRAY,
-			Color.LIGHT_GRAY, Color.GREEN, Color.PINK, Color.BLACK, Color.BLACK, Color.RED, Color.BLACK,
-			Color.DARK_GRAY, Color.BLACK, Color.RED, Color.magenta, Color.GREEN, Color.BLACK, Color.BLUE, Color.BLACK,
-			Color.GREEN, Color.DARK_GRAY, Color.BLACK, Color.LIGHT_GRAY, Color.RED, Color.BLACK, Color.DARK_GRAY,
-			Color.BLACK, Color.pink, Color.BLACK, Color.BLACK, Color.LIGHT_GRAY, Color.black };
-	private Random rand = new Random();
-
 	void drawCells() {
 		Graphics2D gDb = (Graphics2D) image.getGraphics();
 
 		gDb.setColor(Color.black);
-		// gDb.setColor(colors[rand.nextInt(colors.length)]);
 
-		for (int i = zoom.getLeft(); i < zoom.getRight(); i++) {
+		for (int i = 0; i < fieldXSize; i++) {
 
-			for (int j = zoom.getTop(); j < zoom.getBottom(); j++) {
+			for (int j = 0; j < fieldYSize; j++) {
 
 				if (((GameOfLifeCell) field[i][j]).isExist()) {
-				//	gDb.setColor(colors[rand.nextInt(colors.length)]);
-					gDb.fillRect((int) (cellXSize * (i - zoom.getLeft())), (int) (cellYSize * (j - zoom.getTop())),
-							(int) (cellXSize), (int) (cellYSize));
+					// gDb.setColor(colors[rand.nextInt(colors.length)]);
+					gDb.fillRect((int) (i * cellXSize), (int) (j * cellYSize), (int) (cellXSize), (int) (cellYSize));
 
 				}
 
 			}
 
 		}
-
 		g2.drawImage(fitImage(), 0, 0, null);
 
 	}

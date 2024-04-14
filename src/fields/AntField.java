@@ -9,12 +9,14 @@ public class AntField extends Field {
 //	}
 
 	@Override
+	protected
 	void buildField() {
 		// TODO Auto-generated method stub
 
 	}
 
 	@Override
+	protected
 	void buildField(int x, int y) {
 		// TODO Auto-generated method stub
 

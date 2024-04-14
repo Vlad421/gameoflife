@@ -90,7 +90,7 @@ public class MainWindow extends JFrame {
 
 			@Override
 			public void componentResized(ComponentEvent e) {
-
+				field.setImage(fieldPanel.getPreferredSize());
 				centerPickWindow();
 			}
 		});
@@ -120,14 +120,14 @@ public class MainWindow extends JFrame {
 			@Override
 			public void actionPerformed(ActionEvent e) {
 				System.out.println(((JButton) e.getSource()).getText());
-				((JButton) e.getSource()).setText(((JButton) e.getSource()).getText() + " " + (i +=1));
-				
+				((JButton) e.getSource()).setText(((JButton) e.getSource()).getText() + " " + (i += 1));
+
 			}
 
 		});
 		testButton.setText("testButton");
-		testButton.setPreferredSize(new Dimension(50,30));
-	
+		testButton.setPreferredSize(new Dimension(50, 30));
+
 		test.add(testButton);
 		add(testButton, BorderLayout.EAST);
 
@@ -154,7 +154,7 @@ public class MainWindow extends JFrame {
 
 	private void initField(Field field) {
 		this.fieldPanel = new FieldPanel(field);
-
+		// field.setDimension(fieldPanel.getPreferredSize());
 		add(this.fieldPanel, BorderLayout.CENTER);
 	}
 
